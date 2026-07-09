@@ -124,15 +124,37 @@
         }
 
         // Nihayet Evet butonuna basınca ne olacak?
-        function baristik() {
-            question.innerHTML = "Oleyyy! Seni çok seviyorum! 🥰🎉";
-            gifContainer.innerHTML = "💖🥳💃";
-            
-            // Her şeyi temizle ve sadece mutlu mesajı bırak
-            noBtn.style.display = 'none'; 
-            yesBtn.style.display = 'none';
-        }
-    </script>
+      function baristik() {
+    // 1. Evet'e basınca çıkacak ilk yazı
+    question.innerHTML = "Barıştık mı?! Seni çok seviyorum! ve seni üzmemek için her şeyi yapıcam 🥰🎉 ve sana bir teklifim var ";
+    
+    // 2. Evet'e basınca çıkacak ilk mutlu GIF (Düzgün img etiketi içine alındı)
+    gifContainer.innerHTML = '<img src="https://supawork.ai/examples/gif-batch-page/dog-gif/smiling-dog-gif/gifs/demo2.gif" width="150" alt="Mutlu">';
+    
+    // Eski butonları gizliyoruz
+    noBtn.style.display = 'none'; 
+    yesBtn.style.display = 'none';
+
+    // 3. "Teklifi görmek için tıkla" butonu oluşturuluyor (Fonksiyonun İÇİNE taşındı)
+    const teklifBtn = document.createElement('button');
+    teklifBtn.innerHTML = "Teklifi görmek için tıkla 👇";
+    teklifBtn.style.backgroundColor = "#9b59b6"; // Mor renkli tatlı buton
+    teklifBtn.style.color = "white";
+    teklifBtn.style.marginTop = "20px";
+    
+    teklifBtn.onclick = function() {
+        question.innerHTML = "Benimle Toy Story 5'e gelir misin? 🍿🎬"; 
+        
+        gifContainer.innerHTML = '<img src="https://media.tenor.com/C-ZraRpWG2sAAAAm/cat-flowers.gif" width="150" alt="Toy Story">';
+        
+        teklifBtn.style.display = 'none';
+    };
+
+    // Oluşturduğumuz mor butonu ekrandaki kutunun içine ekliyoruz
+    document.querySelector('.buttons').appendChild(teklifBtn);
+}
+// function baristik burada bitiyor
+</script>
 
 </body>
 </html>
