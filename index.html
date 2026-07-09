@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beni Affet...:( 🥺</title>
+    <title>Beni Affet... 🥺</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,6 +25,11 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             max-width: 90%;
             width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
         h1 {
@@ -41,10 +46,10 @@
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            position: relative;
-            height: 60px;
             align-items: center;
+            gap: 20px;
+            width: 100%;
+            flex-wrap: wrap; /* Buton büyüdükçe alt satıra geçebilsin diye */
         }
 
         button {
@@ -54,7 +59,7 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.1s ease;
+            transition: all 0.2s ease; /* Büyüme animasyonu yumuşak olsun diye */
         }
 
         #yesBtn {
@@ -62,16 +67,9 @@
             color: white;
         }
 
-        #yesBtn:hover {
-            transform: scale(1.1);
-        }
-
         #noBtn {
             background-color: #e74c3c;
             color: white;
-            position: absolute;
-            /* İlk başta Evet butonunun sağında düzgün dursun diye sabitliyoruz */
-            left: 55%; 
         }
     </style>
 </head>
@@ -83,41 +81,55 @@
         
         <div class="buttons">
             <button id="yesBtn" onclick="baristik()">Evet</button>
-            <!-- Fare her geldiğinde tetiklenmesi için tüm mouse eventlerini ekledik -->
-            <button id="noBtn" onmouseover="kac()" onmouseenter="kac()" onclick="kac()">Hayır</button>
+            <button id="noBtn" onclick="buyut()">Hayır</button>
         </div>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
         const question = document.getElementById('question');
         const gifContainer = document.querySelector('.gif-container');
 
-        // Butonun ekrandan tamamen taşmaması için sınırları belirleyip ışınlıyoruz
-        function kac() {
-            const padding = 100; // Ekranın en kenarlarına sıkışmasın diye pay bırakıyoruz
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding) + padding / 2;
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding) + padding / 2;
+        let yesScale = 1; // Evet butonunun ilk büyüklük çarpanı
+        let paddingX = 30; // İlk iç boşluk genişliği
+        let paddingY = 12; // İlk iç boşluk yüksekliği
+        let fontSize = 18;  // İlk yazı boyutu
+
+        // Hayır butonuna her basıldığında Evet butonunu büyüten fonksiyon
+        function buyut() {
+            yesScale += 0.4; // Her basışta büyüme oranını artırır
+            fontSize += 4;   // Yazıyı büyütür
+            paddingX += 15;  // Buton genişliğini artırır
+            paddingY += 8;   // Buton yüksekliğini artırır
+
+            // Yeni boyutları Evet butonuna uyguluyoruz
+            yesBtn.style.fontSize = `${fontSize}px`;
+            yesBtn.style.padding = `${paddingY}px ${paddingX}px`;
             
-            noBtn.style.position = 'fixed'; // Ekranın her yerine özgürce kaçabilsin
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
+            // Hayır butonuna basıldıkça üstteki soruyu da biraz panikletelim (İsteğe bağlı eğlence)
+            const sitemler = [
+                "Emin misin? 💔",
+                "Bir daha düşün bence... 🥺",
+                "Gerçekten mi? 😢",
+                "Lütfen ama 😭",
+                "Yoo, kesinlikle hayır diyemezsin! hihi"
+            ];
+            // Rastgele bir sitem cümlesi seçip yazdırıyoruz
+            const rastgeleSitem = sitemler[Math.floor(Math.random() * sitemler.length)];
+            question.innerHTML = rastgeleSitem;
         }
 
-        // Fare çok hızlı hareket ederse ve yakalarsa diye ekstra güvenlik (üzerine tıklandığı an yine kaçar)
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            kac();
-        });
-
+        // Nihayet Evet butonuna basınca ne olacak?
         function baristik() {
             question.innerHTML = "Oleyyy! Seni çok seviyorum! 🥰🎉";
             gifContainer.innerHTML = "💖🥳💃";
-            noBtn.style.display = 'none'; // Hayır butonunu yok et
-            yesBtn.style.transform = 'scale(1.3)';
+            
+            // Her şeyi temizle ve sadece mutlu mesajı bırak
+            noBtn.style.display = 'none'; 
+            yesBtn.style.display = 'none';
         }
     </script>
 
 </body>
-</html>  
+</html>
