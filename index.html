@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beni Affet Çok Pişmanım... 🥺</title>
+    <title>Beni Affet...:( 🥺</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -23,6 +23,8 @@
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 400px;
         }
 
         h1 {
@@ -32,7 +34,7 @@
         }
 
         .gif-container {
-            font-size: 50px;
+            font-size: 60px;
             margin-bottom: 20px;
         }
 
@@ -41,18 +43,18 @@
             justify-content: center;
             gap: 20px;
             position: relative;
-            height: 50px;
+            height: 60px;
             align-items: center;
         }
 
         button {
-            padding: 12px 25px;
+            padding: 12px 30px;
             font-size: 18px;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.1s;
+            transition: all 0.1s ease;
         }
 
         #yesBtn {
@@ -68,19 +70,21 @@
             background-color: #e74c3c;
             color: white;
             position: absolute;
+            /* İlk başta Evet butonunun sağında düzgün dursun diye sabitliyoruz */
+            left: 55%; 
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- İstersen emoji yerine internetten bulduğun tatlı bir GIF linki de koyabilirsin -->
         <div class="gif-container">🥺❤️</div>
-        <h1 id="question">Lütfen Benimle barışır mısın? Lütfen...</h1>
+        <h1 id="question">Benimle barışır mısın? Lütfen...</h1>
         
         <div class="buttons">
             <button id="yesBtn" onclick="baristik()">Evet</button>
-            <button id="noBtn" onmouseover="kac()" onclick="kac()">Hayır</button>
+            <!-- Fare her geldiğinde tetiklenmesi için tüm mouse eventlerini ekledik -->
+            <button id="noBtn" onmouseover="kac()" onmouseenter="kac()" onclick="kac()">Hayır</button>
         </div>
     </div>
 
@@ -90,26 +94,30 @@
         const question = document.getElementById('question');
         const gifContainer = document.querySelector('.gif-container');
 
-        // Hayır butonunun kaçma fonksiyonu
+        // Butonun ekrandan tamamen taşmaması için sınırları belirleyip ışınlıyoruz
         function kac() {
-            // Ekran boyut sınırlarını alıyoruz
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            const padding = 100; // Ekranın en kenarlarına sıkışmasın diye pay bırakıyoruz
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding) + padding / 2;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding) + padding / 2;
             
-            // Butonu rastgele koordinatlara ışınlıyoruz
+            noBtn.style.position = 'fixed'; // Ekranın her yerine özgürce kaçabilsin
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         }
 
-        // Evet butonuna basınca ne olacak?
+        // Fare çok hızlı hareket ederse ve yakalarsa diye ekstra güvenlik (üzerine tıklandığı an yine kaçar)
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            kac();
+        });
+
         function baristik() {
             question.innerHTML = "Oleyyy! Seni çok seviyorum! 🥰🎉";
             gifContainer.innerHTML = "💖🥳💃";
-            noBtn.style.display = 'none'; // Hayır butonunu tamamen gizle
+            noBtn.style.display = 'none'; // Hayır butonunu yok et
             yesBtn.style.transform = 'scale(1.3)';
         }
     </script>
 
 </body>
-</html> 
-  
+</html>  
